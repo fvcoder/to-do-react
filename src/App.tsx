@@ -1,32 +1,51 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState, KeyboardEvent, FormEvent, useEffect } from "react"
+import { TaskItem } from "./components/task.item"
+import { TaskI } from "./types"
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [title, setTitle] = useState('')
+  const [task, setTask] = useState<TaskI[]>([])
+
+  // Load from LocalStorage
+  useEffect(() => {
+    const db = localStorage.getItem('task') || undefined
+    if (db) {
+      setTask(JSON.parse(db))
+    }
+  }, [])
+
+  function handleOnKeyUp(e: KeyboardEvent<HTMLInputElement>) {
+    const value = e.target.value
+    setTitle(value)
+  }
+
+  // Crud 
+  function handleCreate(e: FormEvent) {
+    e.preventDefault()
+    if (title === '') return
+    const newTask = {
+      id: Date.now(),
+      title,
+      complete: false
+    }
+
+    const oldTask = [...task]
+    oldTask.unshift(newTask)
+
+    localStorage.setItem('task', JSON.stringify(oldTask))
+    setTask(oldTask)
+    setTitle('')
+  }
 
   return (
-    <div className="App">
+    <div>
+      <form onSubmit={handleCreate}>
+        <input type="text" placeholder="My task..." autoFocus onChange={handleOnKeyUp} value={title} />
+        <button  type="submit">Create Task</button>
+      </form>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {task.map((x, i) => <TaskItem task={x} key={`task-${i}`} />)}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
   )
 }
