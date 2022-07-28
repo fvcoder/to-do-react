@@ -9,9 +9,13 @@ interface TaskItemProps {
 
 export function TaskItem({ task }: TaskItemProps): JSX.Element {
     return (
-        <div>
-            <input type="checkbox" checked={task.complete} />
-            <p>{task.title}</p>
-        </div>
+        <li>
+            <div className="view">
+                <input type="checkbox" className="toggle" checked={task.complete} />
+                <label>{task.title}</label>
+                <button className="destroy"></button>
+            </div>
+            <input type="text" className="edit" />
+        </li>
     )
 }

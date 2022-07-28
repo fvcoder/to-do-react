@@ -38,15 +38,38 @@ function App() {
   }
 
   return (
-    <div>
-      <form onSubmit={handleCreate}>
-        <input type="text" placeholder="My task..." autoFocus onChange={handleOnKeyUp} value={title} />
-        <button  type="submit">Create Task</button>
-      </form>
-      <div>
-        {task.map((x, i) => <TaskItem task={x} key={`task-${i}`} />)}
-      </div>
-    </div>
+    <>
+      <header className="header">
+        <h1>To-do list</h1>
+        <input type="text" className="new-todo" placeholder="My new task is..." autoFocus onChange={handleOnKeyUp} value={title} />
+      </header>
+      <main className="main">
+        <input type="checkbox" className="toggle-all" id="toggleAll" />
+        <label htmlFor="toggleAll" className="">Mark all as complete</label>
+        <ul className="todo-list">
+          {task.map((x, i) => <TaskItem task={x} key={`task-${i}`} />)}
+        </ul>
+      </main>
+      <footer className="footer">
+        <div className="todo-count">
+          <strong>{task.length}</strong>
+          <span> </span>
+          <span>items</span>
+          <span>left</span>
+        </div>
+        <ul className="filters">
+          <li>
+            <a className="selected">All</a>
+          </li>
+          <li>
+            <a>Active</a>
+          </li>
+          <li>
+            <a>Completed</a>
+          </li>
+        </ul>
+      </footer>
+    </>
   )
 }
 
