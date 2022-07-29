@@ -1,18 +1,10 @@
-import { useState, KeyboardEvent, FormEvent, useEffect } from "react"
+import { useState, KeyboardEvent, FormEvent } from "react"
 import { TaskItem } from "./components/task.item"
-import { TaskI } from "./types"
+import { useTask } from "./hook/useTask"
 
 function App() {
   const [title, setTitle] = useState('')
-  const [task, setTask] = useState<TaskI[]>([])
-
-  // Load from LocalStorage
-  useEffect(() => {
-    const db = localStorage.getItem('task') || undefined
-    if (db) {
-      setTask(JSON.parse(db))
-    }
-  }, [])
+  const { task, createTask } = useTask()
 
   function handleOnKeyUp(e: KeyboardEvent<HTMLInputElement>) {
     const value = e.target.value
@@ -23,17 +15,7 @@ function App() {
   function handleCreate(e: FormEvent) {
     e.preventDefault()
     if (title === '') return
-    const newTask = {
-      id: Date.now(),
-      title,
-      complete: false
-    }
-
-    const oldTask = [...task]
-    oldTask.unshift(newTask)
-
-    localStorage.setItem('task', JSON.stringify(oldTask))
-    setTask(oldTask)
+    createTask(title)
     setTitle('')
   }
 
