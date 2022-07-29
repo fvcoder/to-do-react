@@ -4,7 +4,7 @@ import { useTask } from "./hook/useTask"
 
 function App() {
   const [title, setTitle] = useState('')
-  const { task, createTask } = useTask()
+  const { task, filter, createTask, filterTask } = useTask()
 
   function handleOnKeyUp(e: KeyboardEvent<HTMLInputElement>) {
     const value = e.target.value
@@ -35,19 +35,17 @@ function App() {
       <footer className="footer">
         <div className="todo-count">
           <strong>{task.length}</strong>
-          <span> </span>
-          <span>items</span>
-          <span>left</span>
+          <span> items left</span>
         </div>
         <ul className="filters">
           <li>
-            <a className="selected">All</a>
+            <a className={filter === "all" ? "selected" : ""} onClick={() => filterTask("all")}>All</a>
           </li>
           <li>
-            <a>Active</a>
+            <a className={filter === "active" ? "selected" : ""} onClick={() => filterTask("active")}>Active</a>
           </li>
           <li>
-            <a>Completed</a>
+            <a className={filter === "completed" ? "selected" : ""} onClick={() => filterTask("completed")}>Completed</a>
           </li>
         </ul>
       </footer>

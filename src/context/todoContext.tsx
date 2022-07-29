@@ -1,11 +1,7 @@
 import { createContext, PropsWithChildren, useContext } from 'react'
 import { useTask } from '../hook/useTask'
-import { TaskI } from '../types'
+import { TaskI, TodoListContext } from '../types'
 
-interface TodoListContext {
-    task: TaskI[]
-    createTask: (title: string) => void
-}
 
 const TodoContext = createContext<TodoListContext>(null!)
 
