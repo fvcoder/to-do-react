@@ -13,3 +13,9 @@ export interface TodoListContext {
   createTask: (title: string) => void
   filterTask: (filter: filterT) => void
 }
+
+export interface TaskSliceI {
+  task: TaskI[]
+  db: TaskI[]
+  filter: filterT
+}

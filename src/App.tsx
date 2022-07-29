@@ -1,29 +1,18 @@
-import { useState, KeyboardEvent, FormEvent } from "react"
+import { useDispatch } from "react-redux"
+import { TaskInput } from "./components/task.input"
 import { TaskItem } from "./components/task.item"
-import { useTask } from "./hook/useTask"
+import { useAppSelector } from "./hook/store"
+import { setFilterTask } from "./store/task.slice"
 
 function App() {
-  const [title, setTitle] = useState('')
-  const { task, filter, createTask, filterTask } = useTask()
-
-  function handleOnKeyUp(e: KeyboardEvent<HTMLInputElement>) {
-    const value = e.target.value
-    setTitle(value)
-  }
-
-  // Crud 
-  function handleCreate(e: FormEvent) {
-    e.preventDefault()
-    if (title === '') return
-    createTask(title)
-    setTitle('')
-  }
-
+  const dispatch = useDispatch()
+  const task = useAppSelector(x => x.task.task)
+  const filter = useAppSelector(x => x.task.filter)
   return (
     <>
       <header className="header">
         <h1>To-do list</h1>
-        <input type="text" className="new-todo" placeholder="My new task is..." autoFocus onChange={handleOnKeyUp} value={title} />
+        <TaskInput />
       </header>
       <main className="main">
         <input type="checkbox" className="toggle-all" id="toggleAll" />
@@ -39,13 +28,13 @@ function App() {
         </div>
         <ul className="filters">
           <li>
-            <a className={filter === "all" ? "selected" : ""} onClick={() => filterTask("all")}>All</a>
+            <a className={filter === "all" ? "selected" : ""} onClick={() => dispatch(setFilterTask("all"))}>All</a>
           </li>
           <li>
-            <a className={filter === "active" ? "selected" : ""} onClick={() => filterTask("active")}>Active</a>
+            <a className={filter === "active" ? "selected" : ""} onClick={() => dispatch(setFilterTask("active"))}>Active</a>
           </li>
           <li>
-            <a className={filter === "completed" ? "selected" : ""} onClick={() => filterTask("completed")}>Completed</a>
+            <a className={filter === "completed" ? "selected" : ""} onClick={() => dispatch(setFilterTask("completed"))}>Completed</a>
           </li>
         </ul>
       </footer>
