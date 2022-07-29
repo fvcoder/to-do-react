@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { filterT, TaskSliceI } from "../types";
+import { filterT, TaskI, TaskSliceI } from "../types";
 
 const initialState: TaskSliceI  = {
     task: [],
@@ -19,6 +19,17 @@ export const tastS = createSlice({
             })
             if (s.filter === 'all') s.task = s.db
             if (s.filter === 'active') s.task = s.db.filter(x => x.complete === false)
+            if (s.filter === 'completed') s.task = s.db.filter(x => x.complete === true)
+        },
+        updateTask: (s, p: PayloadAction<TaskI>) => {
+            const i = s.db.findIndex(x => x.id === p.payload.id)
+            if (i === -1) return
+
+            s.db[i] = p.payload
+
+            if (s.filter === 'all') s.task = s.db
+            if (s.filter === 'active') s.task = s.db.filter(x => x.complete === false)
+            if (s.filter === 'completed') s.task = s.db.filter(x => x.complete === true)
         },
         setFilterTask: (s, p: PayloadAction<filterT>) => {
             s.filter = p.payload
@@ -26,7 +37,7 @@ export const tastS = createSlice({
             if (s.filter === 'active') s.task = s.db.filter(x => x.complete === false)
             if (s.filter === 'completed') s.task = s.db.filter(x => x.complete === true)
         }
-    }
+    },
 })
 
-export const { addTask, setFilterTask } = tastS.actions
+export const { addTask, setFilterTask, updateTask } = tastS.actions

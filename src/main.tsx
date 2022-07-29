@@ -9,7 +9,7 @@ import { saveState } from './store/localstorage.state'
 
 store.subscribe(debounce(() => {
   saveState(store.getState());
-}, 800))
+}, 100))
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
