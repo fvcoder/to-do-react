@@ -31,6 +31,12 @@ export const tastS = createSlice({
             if (s.filter === 'active') s.task = s.db.filter(x => x.complete === false)
             if (s.filter === 'completed') s.task = s.db.filter(x => x.complete === true)
         },
+        deleteTask: (s, p: PayloadAction<TaskI>) => {
+            const i = s.db.findIndex(x => x.id === p.payload.id)
+            if (i === -1) return
+            s.db.splice(i, 1)
+            s.task.splice(i, 1)
+        },
         setFilterTask: (s, p: PayloadAction<filterT>) => {
             s.filter = p.payload
             if (s.filter === 'all') s.task = s.db
@@ -40,4 +46,4 @@ export const tastS = createSlice({
     },
 })
 
-export const { addTask, setFilterTask, updateTask } = tastS.actions
+export const { addTask, setFilterTask, updateTask, deleteTask } = tastS.actions

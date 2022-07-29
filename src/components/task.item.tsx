@@ -1,7 +1,7 @@
 import { TaskI } from "../types"
 import { KeyboardEvent } from 'react'
 import { useDispatch } from "react-redux"
-import { updateTask } from "../store/task.slice"
+import { deleteTask, updateTask } from "../store/task.slice"
 
 interface TaskItemProps {
     task: TaskI
@@ -13,6 +13,7 @@ export function TaskItem({ task }: TaskItemProps): JSX.Element {
     const checkboxOnChange = (e: KeyboardEvent<HTMLInputElement>) =>  {
         dispatch(updateTask({ ...task, complete: e.target.checked }))
     }
+
     return (
         <li>
             <div className="view">
@@ -24,7 +25,7 @@ export function TaskItem({ task }: TaskItemProps): JSX.Element {
                     onChange={checkboxOnChange}
                 />
                 <label>{task.title}</label>
-                <button className="destroy"></button>
+                <button className="destroy" onClick={() => dispatch(deleteTask(task))}></button>
             </div>
             <input type="text" className="edit" />
         </li>
