@@ -3,10 +3,11 @@ import { TaskInput } from "./components/task.input"
 import { TaskItem } from "./components/task.item"
 import { useAppSelector } from "./hook/store"
 import { setFilterTask } from "./store/task.slice"
+import { TaskI } from "./types"
 
 function App() {
   const dispatch = useDispatch()
-  const task = useAppSelector(x => x.task.task)
+  const task = useAppSelector(x => x.task.task) as TaskI[]
   const filter = useAppSelector(x => x.task.filter)
   return (
     <>
