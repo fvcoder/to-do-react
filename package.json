@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build-gh": "tsc && vite build --base https://thefersh.github.io/to-do-react/",
+    "build-gh": "tsc && vite build --base https://fvcoder.github.io/to-do-react/",
     "preview": "vite preview"
   },
   "dependencies": {
